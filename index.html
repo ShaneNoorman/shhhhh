@@ -222,6 +222,68 @@ body{
 .hidden{
   display:none;
 }
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+  /* PAGE */
+  .scene {
+    width: 90%;
+    gap: 15px;
+    bottom: 150px; /* adjust table offset */
+  }
+
+  /* PHOTO FRAMES */
+  .frame {
+    width: 80px;
+    height: 110px;
+  }
+
+  /* GIFT BOX */
+  .gift {
+    width: 140px;
+    height: 140px;
+  }
+  .box {
+    border-radius: 8px;
+  }
+  .lid {
+    height: 30px;
+    border-radius: 4px;
+  }
+  .ribbonV {
+    width: 24px;
+  }
+  .ribbonH {
+    height: 30px;
+  }
+
+  /* TABLE */
+  .table {
+    height: 150px;
+  }
+
+  /* BUTTONS */
+  .choice {
+    padding: 12px 24px;
+    font-size: 16px;
+    margin: 12px;
+  }
+
+  /* FLOATING EMOJIS */
+  .emoji {
+    font-size: 16px;
+  }
+
+  /* PLANE */
+  .plane {
+    width: 80vw; /* scale down for mobile */
+  }
+
+  /* FINAL IMAGE */
+  #page3 img {
+    height: 70vh;
+  }
+}
+  
 </style>
 </head>
 <body>
@@ -334,3 +396,4 @@ function choose(){
 </body>
 
 </html>
+
