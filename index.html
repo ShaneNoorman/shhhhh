@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+body{
+  margin:0;
+  font-family:system-ui;
+  background:linear-gradient(#ffffff,#f5f5f5);
+  overflow:hidden;
+}
+
+/* PAGE LAYER */
+.page{
+  position:absolute;
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+}
+
+/* WOOD TABLE */
+.table{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:220px;
+  background:
+    linear-gradient(90deg,#8b5a2b,#a46b34,#8b5a2b),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0,0,0,.05) 0px,
+      rgba(0,0,0,.05) 3px,
+      transparent 3px,
+      transparent 6px
+    );
+  box-shadow:
+    0 -10px 30px rgba(0,0,0,0.25) inset,
+    0 -20px 50px rgba(0,0,0,0.15);
+}
+
+/* SCENE AREA */
+.scene{
+  position:absolute;
+  bottom:220px;
+  width:700px;
+  display:flex;
+  justify-content:center;
+  align-items:flex-end;
+  gap:30px;
+  perspective:900px;
+}
+
+/* PHOTO FRAMES */
+.frame{
+  width:130px;
+  height:170px;
+  background:white;
+  padding:8px;
+  box-shadow:
+    0 8px 20px rgba(0,0,0,0.25),
+    0 20px 25px rgba(0,0,0,0.15);
+  transform-origin:bottom;
+}
+.frame img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.frame:nth-child(1){transform:rotate(-7deg);}
+.frame:nth-child(2){transform:rotate(-3deg);}
+.frame:nth-child(4){transform:rotate(3deg);}
+.frame:nth-child(5){transform:rotate(7deg);}
+
+/* GIFT BOX */
+.gift{
+  width:200px;
+  height:200px;
+  position:relative;
+  cursor:pointer;
+  transform-style:preserve-3d;
+  transition: transform 1s ease;
+}
+
+/* BOX */
+.box{
+  width:100%;
+  height:100%;
+  background:#ff6fa1;
+  position:absolute;
+  box-shadow:0 20px 40px rgba(0,0,0,0.35);
+  border-radius:12px;
+}
+
+/* DEPTH */
+.side{
+  position:absolute;
+  width:100%;
+  height:40px;
+  background:#e25b8b;
+  bottom:-40px;
+  transform:rotateX(90deg);
+  transform-origin:top;
+}
+
+/* LID */
+.lid{
+  position:absolute;
+  width:100%;
+  height:40px;
+  background:#3fbf7f;
+  top:-40px;
+  transform-origin:bottom;
+  transition:transform 1.4s cubic-bezier(.65,.05,.36,1);
+  box-shadow:0 10px 20px rgba(0,0,0,0.2);
+  border-radius:6px;
+}
+
+/* RIBBONS */
+.ribbonV{
+  position:absolute;
+  width:36px;
+  height:100%;
+  background:#2ea567;
+  left:50%;
+  transform:translateX(-50%);
+}
+.ribbonH{
+  position:absolute;
+  width:100%;
+  height:40px;
+  background:#2ea567;
+  top:-40px;
+}
+
+/* OPEN ANIMATION */
+.open .lid{
+  transform:rotateX(120deg);
+}
+
+/* CONFETTI */
+.confetti{
+  position:absolute;
+  border-radius:50%;
+  opacity:0;
+  animation:confettiAnim 3s forwards;
+  box-shadow:0 2px 4px rgba(0,0,0,0.5);
+}
+@keyframes confettiAnim{
+  0%{transform:translate(0,0) rotate(0deg) scale(1); opacity:1;}
+  100%{
+    transform:translate(calc(-600px + 1200px*var(--i)), calc(-600px + 1200px*var(--j))) rotate(1080deg) scale(var(--s));
+    opacity:0;
+  }
+}
+
+/* QUESTION PAGE */
+#page2{
+  flex-direction:column;
+  background:white;
+  overflow:hidden;
+  position:relative;
+  justify-content:center;
+  align-items:center;
+}
+
+/* BUTTONS */
+.choice{
+  margin:20px;
+  padding:18px 36px;
+  font-size:18px;
+  border-radius:12px;
+  border:2px solid #2ea567;
+  background:#b5f0c6;
+  cursor:pointer;
+  transition:.3s;
+  box-shadow:0 5px 15px rgba(0,0,0,0.2);
+  position:relative;
+  animation:buttonBounce 2s infinite;
+}
+.choice:hover{
+  transform:scale(1.12) rotate(-2deg);
+  box-shadow:0 8px 25px rgba(0,0,0,0.25);
+}
+@keyframes buttonBounce{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-8px);}
+}
+
+/* FLOATING EMOJIS */
+.emoji{
+  position:absolute;
+  font-size:24px;
+  opacity:0.6;
+  color:#7be57b;
+  animation:floatUp linear infinite;
+  z-index:1;
+}
+@keyframes floatUp{
+  0%{transform:translateY(100vh) translateX(0);}
+  100%{transform:translateY(-50px) translateX(var(--x)); opacity:0;}
+}
+
+/* PLANE */
+.plane{
+  position:fixed;
+  width:1200px;
+  z-index:5;
+  transition:left 2s linear, bottom 2s linear;
+}
+
+/* FINAL IMAGE */
+#page3 img{
+  height:90vh;
+  object-fit:contain;
+  box-shadow:0 30px 60px rgba(0,0,0,0.3);
+}
+
+/* HIDDEN */
+.hidden{
+  display:none;
+}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<div id="page1" class="page">
+<div class="scene">
+  <div class="frame"><img src="photo1.jpg"></div>
+  <div class="frame"><img src="photo2.jpg"></div>
+  <div class="gift" id="gift">
+    <div class="lid"></div>
+    <div class="box"><div class="ribbonV"></div></div>
+    <div class="side"></div>
+    <div class="ribbonH"></div>
+  </div>
+  <div class="frame"><img src="photo3.jpg"></div>
+  <div class="frame"><img src="photo4.jpg"></div>
+</div>
+<div class="table"></div>
+</div>
+
+<!-- PAGE 2 -->
+<div id="page2" class="page hidden">
+  <div class="content">
+    <h1>How's your March 18 looking?</h1>
+    <button class="choice" onclick="choose()">I'm free</button>
+    <button class="choice" onclick="choose()">Very free</button>
+  </div>
+</div>
+
+<!-- PAGE 3 -->
+<div id="page3" class="page hidden">
+<img src="leave.jpg">
+</div>
+
+<script>
+const gift = document.getElementById("gift");
+
+// GIFT BOX CLICK
+gift.addEventListener("click", ()=>{
+  gift.classList.add("open");
+  gift.style.transform="rotateX(-15deg) rotateY(15deg)";
+  createConfetti();
+  setTimeout(()=>{
+    document.getElementById("page1").style.display="none";
+    document.getElementById("page2").classList.remove("hidden");
+    createFloatingEmojis();
+  },1800);
+});
+
+// CONFETTI
+function createConfetti(){
+  const boxRect = gift.getBoundingClientRect();
+  for(let i=0;i<2800;i++){
+    let c=document.createElement("div");
+    c.className="confetti";
+    c.style.width=c.style.height=(5 + Math.random()*15)+"px";
+    c.style.background=`hsl(${Math.random()*360},80%,60%)`;
+    c.style.left=(boxRect.left + boxRect.width/2) + "px";
+    c.style.top=(boxRect.top + boxRect.height/2) + "px";
+    c.style.setProperty("--i",Math.random());
+    c.style.setProperty("--j",Math.random());
+    c.style.setProperty("--s",0.5 + Math.random());
+    document.body.appendChild(c);
+  }
+}
+
+// FLOATING EMOJIS
+function createFloatingEmojis(){
+  const emojis = ["🎈","❓"];
+  for(let i=0;i<40;i++){
+    let e = document.createElement("div");
+    e.className="emoji";
+    e.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+    e.style.left=Math.random()*90+"vw";
+    e.style.fontSize=(20 + Math.random()*30)+"px";
+    e.style.setProperty("--x",(Math.random()*200 - 100)+"px");
+    e.style.animationDuration=(4 + Math.random()*4)+"s";
+    document.getElementById("page2").appendChild(e);
+  }
+}
+
+// PLANE TRANSITION
+function choose(){
+  const plane = document.createElement("img");
+  plane.src="plane.png";
+  plane.className="plane";
+  plane.style.left="-1200px";
+  plane.style.bottom="0px";
+  document.body.appendChild(plane);
+
+  // PART 1: bottom-left -> center
+  requestAnimationFrame(()=>{
+    plane.style.left="50%";
+    plane.style.bottom="50%";
+  });
+
+  // Switch page at middle
+  setTimeout(()=>{
+    document.getElementById("page2").style.display="none";
+    document.getElementById("page3").classList.remove("hidden");
+
+    // PART 2: continue center -> top-right
+    plane.style.transition="left 2s linear, bottom 2s linear";
+    plane.style.left="110%";
+    plane.style.bottom="80%";
+  },2000);
+}
+</script>
+</body>
+</html>
